@@ -29,31 +29,26 @@ dato: pelicula;
 sig: lista;
 end;
 
-
-
 vector = array [rangoGenero] of lista; //vector de listas
-
+vPuntajes = array rangoGenero 
 
 Procedure InicializarVectorDeListas(var pri: vector ; var ult: vector);
 var
 i: integer;
 begin
-    for i := 1 to 8 do begin
+    for i := 1 to totalGeneros do begin
         pri[i] := nil;
         ult[i] := nil;
     end;
 end;
 
 procedure AgregarAlVector(codGenero: rangoGenero ; var pri: vector ; var ult: vector ; p:pelicula);
-
-	var
-	aux: lista;
-	begin
-	
+var
+aux: lista;
+begin
 	new (aux);
 	aux^.dato:=p;
 	aux^.sig:=nil;
-	
 
     if (pri[codGenero] = nil) then //Si es el primer nodo de la lista
     begin
@@ -61,10 +56,10 @@ procedure AgregarAlVector(codGenero: rangoGenero ; var pri: vector ; var ult: ve
         ult[codGenero] := aux;   //el ultimo nodo queda con P
 	end
 	else begin //si no es el primer nodo
-		ult[codGenero]^.sig := aux; //enlazo al ultimo
+		ult[codGenero]^.sig := aux; //en el campo siguiente del ultimo le pongo el valor del que agregue recien
 		ult[codGenero]:= aux;      // Actualizo puntero al último
     end;
-	end;
+end;
 
 procedure LeerPelicula(var p: pelicula ; var codigo: rangoGenero);
 begin
