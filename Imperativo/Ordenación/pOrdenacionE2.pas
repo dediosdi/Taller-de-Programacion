@@ -64,13 +64,11 @@ begin
 	end;
 end;
 
-
-{----------------------------------------
--------ORDENACION POR SELECCION---------
-----------------------------------------}
-
 procedure OrdenarVector (var v: vectorOficinas ; dimL: integer);
-
+	
+	{----------------------------------------
+	-------ORDENACION POR SELECCION---------
+	----------------------------------------}
 		procedure seleccion (var v: vectorOficinas; dimL: integer);
 			var i, j, pos: integer; item: integer;	
 			begin
