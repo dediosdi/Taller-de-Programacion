@@ -12,6 +12,13 @@ c. Ordene los elementos del vector generado en b) por puntaje utilizando alguno 
 métodos vistos en la teoría.
 d. Muestre el código de película con mayor puntaje y el código de película con menor puntaje,
 del vector obtenido en el punto c). }
+
+
+	{----------------------------------------
+	---EJERCICIO DE VECTOR DE LISTAS-------
+	----------------------------------------}
+
+
 program ej2p1.pas;
 const
 totalGeneros = 8;
@@ -30,8 +37,12 @@ sig: lista;
 end;
 
 vector = array [rangoGenero] of lista; //vector de listas
-vPuntajes = array rangoGenero 
 
+mejorPelicula = record
+    codigo: integer;
+    puntaje: real;
+end;
+vectorMejoresPeliculas = array [rangoGenero] of mejorPelicula;
 Procedure InicializarVectorDeListas(var pri: vector ; var ult: vector);
 var
 i: integer;
@@ -41,7 +52,9 @@ begin
         ult[i] := nil;
     end;
 end;
-
+	{----------------------------------------
+	-AGREGAR ELEMENTOS AL VECTOR DE LISTAS--
+	----------------------------------------}
 procedure AgregarAlVector(codGenero: rangoGenero ; var pri: vector ; var ult: vector ; p:pelicula);
 var
 aux: lista;
@@ -67,7 +80,9 @@ begin
 	readln (p.codigoPelicula);
 	readln (p.puntaje);
 end;
-
+	{----------------------------------------
+	---------VECTOR DE LISTAS----------------
+	----------------------------------------}
 procedure CargarLista(var pri,ult: vector);
 var p: pelicula;
 codCat: rangoGenero;
@@ -78,16 +93,77 @@ begin
 		LeerPelicula(p, codCat);
 	end;
 end;
+	{-----------------------------------------
+	-VECTOR CON LA MEJOR PUNTUACION X GENEROS-
+	------------------------------------------}
+
+
+procedure VectorMejores(pri: vector ; var v: vectorMejoresPeliculas);
+var
+    L: lista;
+    i: integer;
+    puntajeMax: real;
+    codMax: integer;
+begin
+    for i:=1 to totalGeneros do begin
+        L := pri[i];
+        puntajeMax := -1;
+        codMax := 0;
+        while (L <> nil) do begin
+            if (L^.dato.puntaje > puntajeMax) then begin
+                puntajeMax := L^.dato.puntaje;
+                codMax := L^.dato.codigoPelicula;
+            end;
+            L := L^.sig;
+        end;
+        v[i].codigo := codMax;
+        v[i].puntaje := puntajeMax;
+    end;
+end;
 
 
 
 
 
+	{----------------------------------------
+	-------ORDENACION POR SELECCION---------
+	----------------------------------------}
+procedure OrdenarVector(var v: vectorMejoresPeliculas);
+var 
+    i, j, pos: integer;
+    aux: mejorPelicula;
+begin
+    for i := 1 to totalGeneros-1 do begin
+        pos := i;
+        for j := i+1 to totalGeneros do
+            if v[j].puntaje < v[pos].puntaje then
+                pos := j;
+        aux := v[pos];
+        v[pos] := v[i];
+        v[i] := aux;
+    end;
+end;
+
+
+
+		
+procedure MostrarCodigos(v: vectorMejoresPeliculas);
+begin
+    writeln('Película con menor puntaje: código ', v[1].codigo, ' (', v[1].puntaje:0:2, ')');
+    writeln('Película con mayor puntaje: código ', v[totalGeneros].codigo, ' (', v[totalGeneros].puntaje:0:2, ')');
+end;			
 var
 pri: vector;
 ult: vector;
+vM: vectorMejoresPeliculas;
 begin
 InicializarVectorDeListas(pri, ult);
-CargarLista(pri, ult);
+CargarLista(pri, ult); //PUNTO A
+VectorMejores(pri, vM); //PUNTO B
+OrdenarVector(vM); //PUNTO C - Ordenacion por seleccion\
+MostrarCodigoS(vM); // PUNTO D5
+
+
+
 end.
 
