@@ -43,6 +43,9 @@ mejorPelicula = record
     puntaje: real;
 end;
 vectorMejoresPeliculas = array [rangoGenero] of mejorPelicula;
+
+
+
 Procedure InicializarVectorDeListas(var pri: vector ; var ult: vector);
 var
 i: integer;
