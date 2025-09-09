@@ -57,12 +57,13 @@ if (l<>nil) then begin
 	end;
 end;
 
-procedure MinimoRecursivo (l: lista);
+function MinimoRecursivo (l: lista): integer;
 var min: integer;
 begin
 	if (l<>nil) then begin
 		if (l^.dato > min) then
 			min:=l^.dato;
+			l:=l^.sig;
 	MinimoRecursivo(l);
 	
 end;
@@ -81,6 +82,6 @@ writeln ('Impresion recursiva:');
 ImprimirRecursivo(l); //PUNTO B
 writeln ('Impresion recursiva en orden inverso:');
 ImprimirRecursivoInverso(l); //PUNTO C
-MinimoRecursivo(l, min);
+MinimoRecursivo(l);
 
 end.
