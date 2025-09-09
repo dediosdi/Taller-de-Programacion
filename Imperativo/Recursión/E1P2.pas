@@ -21,35 +21,66 @@ dato: integer;
 sig: lista;
 end;
 
-procedure AgregarAdelante(var num: integer; var L: lista);
+procedure AgregarAdelante(num: integer; var L: lista);
 var aux: lista;
 begin
 new(aux);
 aux^.dato:=num;
 aux^.sig:=L;
+L:=aux;
 end;
 
-procedure GenerarListaRecursivo(l: lista);
-var
-num: integer;
+procedure GenerarListaRecursivo(var l: lista);
+var num: integer;
 begin
-num:=0;
-
-while (num <> 100) do begin
-	num:=Random(200-100)+1;
-	AgregarAdelante(num, l);
-	GenerarListaRecursivo(l);
+	num:=Random(101)+100;
+	if (num <> 100) then begin
+		AgregarAdelante(num, l);
+		GenerarListaRecursivo(l);
+		end;
 end;
+
+procedure ImprimirRecursivo(l: lista);
+begin
+if (l<>nil) then begin
+	writeln (l^.dato);
+	ImprimirRecursivo (l^.sig);
+	end;
+end;
+
+procedure ImprimirRecursivoInverso(l: lista);
+begin
+if (l<>nil) then begin
+	ImprimirRecursivoInverso (l^.sig);
+	writeln (l^.dato);
+
+	end;
+end;
+
+procedure MinimoRecursivo (l: lista);
+var min: integer;
+begin
+	if (l<>nil) then begin
+		if (l^.dato > min) then
+			min:=l^.dato;
+	MinimoRecursivo(l);
+	
+end;
+		
 end;
 
 
 var
-l: lista;
+l: lista; min: integer;
 begin
 l:=nil;
+min:=0;
 Randomize;
-GenerarListaRecursivo(l);
-Imprimir(l);
-ImprimirInverso(l);}
+GenerarListaRecursivo(l); //PUNTO A
+writeln ('Impresion recursiva:');
+ImprimirRecursivo(l); //PUNTO B
+writeln ('Impresion recursiva en orden inverso:');
+ImprimirRecursivoInverso(l); //PUNTO C
+MinimoRecursivo(l, min);
 
 end.
