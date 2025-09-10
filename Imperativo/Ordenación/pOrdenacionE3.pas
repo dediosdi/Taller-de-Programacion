@@ -164,7 +164,7 @@ InicializarVectorDeListas(pri, ult);
 CargarLista(pri, ult); //PUNTO A
 VectorMejores(pri, vM); //PUNTO B
 OrdenarVector(vM); //PUNTO C - Ordenacion por seleccion\
-MostrarCodigoS(vM); // PUNTO D5
+MostrarCodigoS(vM); // PUNTO D
 
 
 

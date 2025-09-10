@@ -57,31 +57,49 @@ if (l<>nil) then begin
 	end;
 end;
 
-function MinimoRecursivo (l: lista): integer;
-var min: integer;
+function Minimo(L: lista): integer;
+var
+    minResto: integer;
 begin
-	if (l<>nil) then begin
-		if (l^.dato > min) then
-			min:=l^.dato;
-			l:=l^.sig;
-	MinimoRecursivo(l);
-	
+    if L^.sig = nil then
+        Minimo := L^.dato
+    else begin
+        minResto := Minimo(L^.sig);
+        if L^.dato < minResto then
+            Minimo := L^.dato
+        else
+            Minimo := minResto;
+    end;
 end;
-		
+
+function EstaEnLaLista(l: lista; v: integer): boolean;
+begin
+	if l = nil then
+		EstaEnLaLista := false
+	else if l^.dato = v then
+		EstaEnLaLista := true
+	else
+		EstaEnLaLista := EstaEnLaLista(l^.sig, v);
 end;
+
 
 
 var
-l: lista; min: integer;
+l: lista;
+valor: integer;
 begin
 l:=nil;
-min:=0;
 Randomize;
 GenerarListaRecursivo(l); //PUNTO A
 writeln ('Impresion recursiva:');
 ImprimirRecursivo(l); //PUNTO B
 writeln ('Impresion recursiva en orden inverso:');
 ImprimirRecursivoInverso(l); //PUNTO C
-MinimoRecursivo(l);
-
+writeln('El minimo es: ', Minimo(l)); //PUNTO D
+writeln('Ingrese un valor para comprobar si esta en la lista');
+readln(valor);
+if EstaEnLaLista(l, valor) then //PUNTO E
+	writeln(true) 
+	else
+	writeln(false);
 end.
