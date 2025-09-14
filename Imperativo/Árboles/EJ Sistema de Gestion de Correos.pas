@@ -33,7 +33,7 @@ LeerCorreo(unCorreo);
 while (cunCorreo.c
 
 
-end;
+end;s
 
 
 

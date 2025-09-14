@@ -18,185 +18,194 @@ con mayor cantidad total de unidades vendidas.
 c. Implemente un módulo que reciba el árbol generado en iii. y retorne el código de producto
 con mayor cantidad de ventas.}
 
+program ArbolesVentas;
 type
-venta = record  //reg punto i.
-codProd: integer;
-fecha: integer;
-cant: integer;
-end;
+  venta = record            // registro punto i
+    codProd: integer;
+    fecha: integer;
+    cant: integer;
+  end;
 
-prodVendidos = record  //reg punto ii.
-cod: integer;
-cantVendida: integer;
-end;
+  prodVendidos = record     // registro punto ii
+    cod: integer;
+    cantVendida: integer;
+  end;
 
-lista = ^nodo;
-nodo = record
-dato: venta;
-sig: lista;
-end;
+  lista = ^nodo;
+  nodo = record
+    dato: venta;
+    sig: lista;
+  end;
 
-VentasxProductos = record //reg punto iii;
-cod: integer;
-venta: lista;
-end;
- 
+  VentasxProductos = record // registro punto iii
+    cod: integer;
+    ventas: lista;
+  end;
 
-arbolV = ^nodoV; //punto i.
-nodoV = record
-dato: venta;
-hd: arbolV;
-hi: arbolV;
-end;
+  // Árbol de ventas (punto i)
+  arbolV = ^nodoV;
+  nodoV = record
+    dato: venta;
+    hi: arbolV;
+    hd: arbolV;
+  end;
 
-arbolP = ^nodoP; //punto ii.
-nodoP = record
-dato: prodVendidos;
-hd: arbolP;
-hi: arbolP;
-end;
- 
-arbolL = ^nodoL; //punto iii.
-nodoL = record
-dato: VentasxProductos;
-hd: arbolL;
-hi: arbolL;
-end; 
+  // Árbol de productos acumulados (punto ii)
+  arbolP = ^nodoP;
+  nodoP = record
+    dato: prodVendidos;
+    hi: arbolP;
+    hd: arbolP;
+  end;
 
+  // Árbol de listas (punto iii)
+  arbolL = ^nodoL;
+  nodoL = record
+    dato: VentasxProductos;
+    hi: arbolL;
+    hd: arbolL;
+  end;
 
-
-
-
+{--------------- Lectura de una venta aleatoria ----------------}
 procedure LeerVenta(var v: venta);
 begin
-v.codProd := Random(15);  // valores 0..14
-v.fecha := random(365) + 1;
-v.cant:=random(50)+1;
+  v.codProd := Random(15);        // valores 0..14
+  v.fecha := Random(365) + 1;
+  v.cant := Random(50) + 1;
 end;
 
-
-procedure AgregaraArbolListas(var a: arbolL ; v: venta);
-var aux: arbolV;
-l: lista;
-begin
-if (a = nil) then begin //primer nodo
-	new (aux);
-	aux^.dato:=v;
-	aux^.hi:=nil;
-	aux^.hd:=nil;
-	a := aux; 
-	end
-	else 
-	if (a^.dato.codProd > v.codProd) then
-		AgregaraArbolVentas(a^.hi, v)
-		else 
-		AgregaraArbolVentas(a^.hd, v);
-		end;
-	
-
-
-procedure AgregaraArbolVentas(var a: arbolV ; v: venta);
+{--------------- Árbol de ventas simples -----------------------}
+procedure AgregarArbolVentas(var a: arbolV; v: venta);
 var aux: arbolV;
 begin
-if (a = nil) then begin //primer nodo
-	new (aux);
-	aux^.dato:=v;
-	aux^.hi:=nil;
-	aux^.hd:=nil;
-	a := aux; 
-	end
-	else 
-	if (a^.dato.codProd > v.codProd) then
-		AgregaraArbolVentas(a^.hi, v)
-		else 
-		AgregaraArbolVentas(a^.hd, v);
-		end;
-	
+  if (a = nil) then begin
+    new(aux);
+    aux^.dato := v;
+    aux^.hi := nil;
+    aux^.hd := nil;
+    a := aux;
+  end
+  else if (a^.dato.codProd > v.codProd) then
+    AgregarArbolVentas(a^.hi, v)
+  else
+    AgregarArbolVentas(a^.hd, v);
+end;
 
-procedure AgregarArbolProductos(var a: arbolP ; cod, cant: integer);
+{--------------- Árbol de productos acumulados ----------------}
+procedure AgregarArbolProductos(var a: arbolP; cod, cant: integer);
 var aux: arbolP;
 begin
-if (a = nil) then begin //primer nodo
-	new (aux);
-	aux^.dato.cod:=cod;
-	aux^.dato.cantVendida:=cant;
-	aux^.hi:=nil;
-	aux^.hd:=nil;
-	a:= aux; 
-	end
-	else begin
-		if (a^.dato.cod = cod) then 
-		a^.dato.cantVendida:=a^.dato.cantVendida+cant
-		else
-		if (a^.dato.cod>cod) then
-		AgregarArbolProductos(a^.hi, cod, cant)
-		else 
-		AgregarArbolProductos(a^.hd, cod, cant);
-		end;
-	end;
-	
-	
+  if (a = nil) then begin
+    new(aux);
+    aux^.dato.cod := cod;
+    aux^.dato.cantVendida := cant;
+    aux^.hi := nil;
+    aux^.hd := nil;
+    a := aux;
+  end
+  else if (a^.dato.cod = cod) then
+    a^.dato.cantVendida := a^.dato.cantVendida + cant
+  else if (a^.dato.cod > cod) then
+    AgregarArbolProductos(a^.hi, cod, cant)
+  else
+    AgregarArbolProductos(a^.hd, cod, cant);
+end;
 
-	
-{procedure CargarArbolVentas(var a: arbolV);
-	var	v: venta;
-	begin
-		LeerVenta(v);
-			while (v.codProd <> 0) do begin
-			AgregaraArbolVentas(a, v);
-			LeerVenta(v);
-	end;
-	
-end;}
+{--------------- Árbol de listas (ventas por producto) ---------}
+procedure AgregarALista(var l: lista; v: venta);
+var aux: lista;
+begin
+  new(aux);
+  aux^.dato := v;
+  aux^.sig := l;
+  l := aux;
+end;
 
-procedure CargarArboles (var AP: arbolP ; var AV: arbolV ; var AL: arbolL);
-	var v: venta; 
-	l: lista;
-	begin
-		LeerVenta(v);
-		while (v.codProd <> 0) do begin
-			AgregaraArbolVentas(av,v); //punto i.
-			AgregarArbolProductos(ap, v.codProd, v.cant); //punto ii.
-			AgregarArbolListas(al, v.codProd, l); //punto iii.
-			LeerVenta(v);
-		end;
-	end;
-	
+procedure AgregarArbolListas(var a: arbolL; v: venta);
+begin
+  if (a = nil) then begin
+    new(a);
+    a^.dato.cod := v.codProd;
+    a^.dato.ventas := nil;
+    AgregarALista(a^.dato.ventas, v);
+    a^.hi := nil;
+    a^.hd := nil;
+  end
+  else if (a^.dato.cod = v.codProd) then
+    AgregarALista(a^.dato.ventas, v)
+  else if (a^.dato.cod > v.codProd) then
+    AgregarArbolListas(a^.hi, v)
+  else
+    AgregarArbolListas(a^.hd, v);
+end;
+
+{--------------- Cargar todos los árboles ----------------------}
+procedure CargarArboles(var AP: arbolP; var AV: arbolV; var AL: arbolL);
+var v: venta;
+begin
+  LeerVenta(v);
+  while (v.codProd <> 0) do begin
+    AgregarArbolVentas(AV, v);                // punto i
+    AgregarArbolProductos(AP, v.codProd, v.cant); // punto ii
+    AgregarArbolListas(AL, v);                // punto iii
+    LeerVenta(v);
+  end;
+end;
+
+{--------------- Recorridos -----------------------------------}
 procedure recorrerInordenVentas(a: arbolV);
 begin
-    if (a <> nil) then begin
-        recorrerInordenVentas(a^.HI);          { 1. Recorro subárbol izquierdo }
-        writeln(a^.dato.codProd, ' - Cant: ', a^.dato.cant)1;            { 2. Proceso el nodo actual }
-        recorrerInordenVentas(a^.HD);          { 3. Recorro subárbol derecho }
-    end;
- 
+  if (a <> nil) then begin
+    recorrerInordenVentas(a^.hi);
+    writeln('Venta -> Cod: ', a^.dato.codProd, ' Cant: ', a^.dato.cant, ' Fecha: ', a^.dato.fecha);
+    recorrerInordenVentas(a^.hd);
+  end;
 end;
 
-	
 procedure recorrerInordenProductos(a: arbolP);
 begin
-    if (a <> nil) then begin
-        recorrerInordenProductos(a^.HI);          { 1. Recorro subárbol izquierdo }
-        writeln(' - Codigo: ', a^.dato.cod, ' - Cant: ', a^.dato.cantVendida);           { 2. Proceso el nodo actual }
-        recorrerInordenProductos(a^.HD);          { 3. Recorro subárbol derecho }
-    end;
+  if (a <> nil) then begin
+    recorrerInordenProductos(a^.hi);
+    writeln('Producto -> Cod: ', a^.dato.cod, ' Total vendido: ', a^.dato.cantVendida);
+    recorrerInordenProductos(a^.hd);
+  end;
 end;
-var
-arbolVentas: arbolV;
-arbolProductos: arbolP;
-arbolLista: arbolL;
+
+procedure recorrerInordenListas(a: arbolL);
+var l: lista;
 begin
-arbolVentas:=nil;
-arbolProductos:=nil;
-arbolLista:=nil;
-Randomize;
-CargarArboles(arbolProductos, arbolVentas, arbolListas); 
+  if (a <> nil) then begin
+    recorrerInordenListas(a^.hi);
+    writeln('Producto ', a^.dato.cod, ':');
+    l := a^.dato.ventas;
+    while (l <> nil) do begin
+      writeln('   Venta cant=', l^.dato.cant, ' fecha=', l^.dato.fecha);
+      l := l^.sig;
+    end;
+    recorrerInordenListas(a^.hd);
+  end;
+end;
 
+{--------------- Programa principal ---------------------------}
+var
+  arbolVentas: arbolV;
+  arbolProductos: arbolP;
+  arbolLista: arbolL;
+begin
+  arbolVentas := nil;
+  arbolProductos := nil;
+  arbolLista := nil;
+  Randomize;
 
+  CargarArboles(arbolProductos, arbolVentas, arbolLista);
 
-recorrerInordenVentas(arbolVentas);
-recorrerInordenProductos(arbolProductos);
-
-
-
+  writeln('--- Ventas individuales ---');
+  recorrerInordenVentas(arbolVentas);
+  writeln;
+  writeln('--- Productos acumulados ---');
+  recorrerInordenProductos(arbolProductos);
+  writeln;
+  writeln('--- Ventas agrupadas por producto (listas) ---');
+  recorrerInordenListas(arbolLista);
 end.
+
