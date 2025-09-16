@@ -54,11 +54,11 @@ end
 	
 procedure LeerArtesania(var a: artesania);
 begin
-readln(a.dniArtesano);
-readln(a.id);
-readln(a.codMat);
+  // Para simular la lectura aleatoria
+  a.dniArtesano := Random(5) ;
+  a.id := Random(100) + 1;          // ID de artesanía del 1 al 100
+  a.codMat := Random(8) + 1;        // Código de material 1..8
 end;
-
 
 procedure cargarDatos(var a: arbol ; var v: vecCat);
 var
@@ -71,19 +71,44 @@ while (art.dniArtesano <> 0) do begin
 end;
 end;
 
+// Muestra la cantidad de artesanías por material
+procedure MostrarVector(v: vecCat);
+var i: integer;
+begin
+  writeln('Cantidad de artesanias por material:');
+  for i := 1 to 8 do
+    writeln('Material ', i, ': ', v[i]);
+end;
+
+// Recorre el árbol en orden (in-order) mostrando DNI y cantidad de artesanías
+procedure MostrarArbol(a: arbol);
+begin
+  if a <> nil then
+  begin
+    MostrarArbol(a^.hi);
+    writeln('DNI: ', a^.dato.dni, ' - Cantidad de artesanias: ', a^.dato.cantArt);
+    MostrarArbol(a^.hd);
+  end;
+end;
+
+
 
 procedure InicializarVector(var v: vecCat);
 var i: integer;
 begin
-for i:=1 to 7 do 
+for i:=1 to 8 do 
 	v[i]:=0;
 end;
 var 
 a: arbol; 
 v: vecCat;
 begin
-a:=nil;
-InicializarVector(v);
-cargarDatos(a, v);
+  Randomize;
+  a := nil;
+  InicializarVector(v);
+  cargarDatos(a, v);
 
+  // Mostrar resultados
+  MostrarVector(v);
+  MostrarArbol(a);
 end.
