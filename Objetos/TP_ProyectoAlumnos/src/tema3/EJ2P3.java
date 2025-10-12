@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tema2;
+package tema3;
 
 /**
  *
  * @author juan
  */
-public class E5P2 {
+public class EJ2P3 {
     
 }
