@@ -12,6 +12,7 @@ NOTA: utilizar la clase Persona. Pensar en la estructura de datos a utilizar. Pa
 Strings use el método equals.
  */
 package tema2;
+import tema3.Persona;
 import PaqueteLectura.Lector;
 /**
  *

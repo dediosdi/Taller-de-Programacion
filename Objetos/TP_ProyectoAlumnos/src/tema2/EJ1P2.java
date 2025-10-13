@@ -15,6 +15,7 @@ muestre en consola la representación de ese objeto en formato String.
  */
 package tema2;
 
+import tema3.Persona;
 import PaqueteLectura.Lector;
 /**
  *

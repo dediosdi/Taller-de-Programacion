@@ -7,6 +7,7 @@ obtener edad 0. Luego de almacenar la información:
  */
 package tema2;
 
+import tema3.Persona;
 import PaqueteLectura.GeneradorAleatorio;
 /**
  *

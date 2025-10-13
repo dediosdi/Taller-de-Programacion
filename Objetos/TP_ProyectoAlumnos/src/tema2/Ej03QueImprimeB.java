@@ -5,6 +5,8 @@
  */
 package tema2;
 
+import tema3.Persona;
+
 /**
  *
  * @author vsanz

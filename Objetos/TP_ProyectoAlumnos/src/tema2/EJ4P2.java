@@ -1,4 +1,5 @@
 package tema2;
+import tema3.Persona;
 import PaqueteLectura.Lector;
 
 public class EJ4P2 {
