@@ -22,7 +22,7 @@ package tema3;
  */   
 import PaqueteLectura.Lector;
 
-public class EJ1P3 {
+public class E1P3 {
    public static void main(String[] args) {
        
        System.out.println("VALOR DE SUS 3 LADOS");

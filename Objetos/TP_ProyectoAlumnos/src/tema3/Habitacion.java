@@ -26,8 +26,13 @@ package tema3;
  */
 public class Habitacion {
     private double costo;
-    private boolean disponible = true;
-    private Persona Cliente;
+    private boolean disponible;
+
+    public Habitacion(double costo) {
+        this.costo = costo;
+        this.disponible = disponible;
+
+    }
 
     public double getCosto() {
         return costo;
@@ -45,13 +50,5 @@ public class Habitacion {
         this.disponible = disponible;
     }
 
-    public Persona getCliente() {
-        return Cliente;
-    }
-
-    public void setCliente(Persona Cliente) {
-        this.Cliente = Cliente;
-    }
-    
     
 }
