@@ -1,47 +1,64 @@
-/*
-na gira es un recital que además tiene un nombre y las “fechas” donde se repetirá la
-actuación. De cada “fecha” se conoce la ciudad y el día. Además la gira guarda el
-número de la fecha en la que se tocará próximamente (actual).
- */
 package tema5;
 
-/**
- *
- * @author juan
- */
-public class Gira extends Recitales {
-    private String nombre;
-    private Fechas fecha;
-    private int actual;
+public class Gira extends Recital {
+    private String nombreGira;
+    private Fechas[] fechas;
+    private int cantFechas;
+    private int fechaActual;
 
-    public Gira(String nombre, Fechas fecha, int actual, String nombreBanda, String listaTemas) {
-        super(nombreBanda, listaTemas);
-        this.nombre = nombre;
-        this.fecha = fecha;
-        this.actual = actual;
+    public Gira(String nombreGira, int cantFechas, String nombreBanda, int cantTemas) {
+        super(nombreBanda, cantTemas);
+        setNombreGira(nombreGira);
+        setFechas(new Fechas[cantFechas]);
+        setCantFechas(0);
+        setFechaActual(0);
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreGira() {
+        return nombreGira;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreGira(String nombreGira) {
+        this.nombreGira = nombreGira;
     }
 
-    public Fechas getFecha() {
-        return fecha;
+    public Fechas[] getFechas() {
+        return fechas;
     }
 
-    public void setFecha(Fechas fecha) {
-        this.fecha = fecha;
+    public void setFechas(Fechas[] fechas) {
+        this.fechas = fechas;
     }
 
-    public int getActual() {
-        return actual;
+    public int getCantFechas() {
+        return cantFechas;
     }
 
-    public void setActual(int actual) {
-        this.actual = actual;
+    public void setCantFechas(int cantFechas) {
+        this.cantFechas = cantFechas;
+    }
+
+    public int getFechaActual() {
+        return fechaActual;
+    }
+
+    public void setFechaActual(int fechaActual) {
+        this.fechaActual = fechaActual;
+    }
+
+    public void agregarFecha(Fechas unaFecha) {
+        getFechas()[getCantFechas()] = unaFecha;
+        setCantFechas(getCantFechas() + 1);
+    }
+
+    public void actuar() {
+        System.out.println("Buenas noches " + getFechas()[getFechaActual()].getCiudad());
+        super.actuar();
+        if (getFechaActual() < getCantFechas() - 1)
+            setFechaActual(getFechaActual() + 1);
+    }
+
+    public double calcularCosto() {
+        return 30000 * getCantFechas();
     }
 }

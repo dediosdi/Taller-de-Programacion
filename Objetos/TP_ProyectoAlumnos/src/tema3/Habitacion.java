@@ -28,7 +28,7 @@ public class Habitacion {
     private double costo;
     private boolean disponible;
 
-    public Habitacion(double costo) {
+    public Habitacion(double costo, boolean disponible) {
         this.costo = costo;
         this.disponible = disponible;
 
