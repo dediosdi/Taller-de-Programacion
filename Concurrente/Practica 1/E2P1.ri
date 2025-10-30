@@ -1,76 +1,78 @@
-{Realice un programa en el que 4 robots limpien de papeles el perímetro de un cuadrado de lado 20
-en sentido horario, como se muestra en la figura:
-El vértice inferior izquierdo del cuadrado se ubica en la esquina (10,10).
-Al finalizar, cada robot debe informar la cantidad de papeles juntados en su lado.
-Al realizar este programa, analizar:
-a) ¿Cómo deben declararse la o las áreas?
-b) ¿Existe riesgo de colisión?}
+{3) Realice un programa en el que 3 robots realicen escaleras de 4 escalones. El tamaño de cada
+escalón se incrementa en un 1 respecto al escalón anterior. El primer escalón será de 1x1, el
+segundo de 2x2, y así sucesivamente, como se muestra a continuación: IMAGEN
+Al finalizar el recorrido, cada robot debe informar la cantidad de escalones en los que la cantidad
+de papeles superó en 1 a la cantidad de flores. Las esquinas deben quedar sin modificar}
 
-programa EJ2P2
+programa ejemplo
 procesos
-  proceso juntarPapeles(ES totalJuntado: numero)
-  comenzar
-    repetir 19
-      si HayPapelEnLaEsquina
-        tomarPapel
-        totalJuntado:=totalJuntado+1
-      mover
-  fin
-areas
-  areaR1: AreaP (10,10,10,29)
-  areaR2: AreaP (10, 30, 29,30)
-  areaR3: AreaP(30,11,30,30)
-  areaR4: AreaP (11,10,30,10)
-robots
-
-  robot robot1
-  variables
-    papeles: numero
-  comenzar
-    juntarPapeles(papeles)
-    Informar(papeles)
-  fin
-
-  robot robot2
-  variables 
-    papeles: numero
-  comenzar
-    derecha 
-    juntarPapeles(papeles)
-    Informar(papeles)
-  fin
-
-  robot robot3
-  variables 
-    papeles: numero
-  comenzar
-    repetir 2
-      derecha 
-    juntarPapeles(papeles)
-    Informar(papeles)
-  fin
-
-  robot robot4
-  variables 
-    papeles: numero
+  proceso izquierda
   comenzar
     repetir 3
-      derecha 
-    juntarPapeles(papeles)
-    Informar(papeles)
+      derecha
   fin
+  
+  
+  proceso subirEscalon (ES escalon: numero ; ES cant: numero)
+  variables   
+    cantF,cantP: numero
+  comenzar
+    repetir escalon
+      si (HayFlorEnLaEsquina) 
+        tomarFlor
+        cantF:=cantF+1
+      si (HayPapelEnLaEsquina)
+        tomarPapel
+        cantP:=cantP+1
+      mover
+    derecha
+    repetir escalon
+      si (HayFlorEnLaEsquina) 
+        tomarFlor
+        cantF:=cantF+1
+      si (HayPapelEnLaEsquina)
+        tomarPapel
+        cantP:=cantP+1
+      mover
+    izquierda
+    si (cantP-cantF=1) 
+      cant:=cant+1
+    
+      
+  fin
+  
+  proceso escalar (E escalon: numero)
+  variables
+    cant: numero
+  comenzar
+    repetir 4
+      subirEscalon(escalon, cant)
+      escalon:=escalon+1
+    Informar(cant)
+      
+      
+      
+  fin
+areas
+  ciudad: AreaC (1,1,100,100)
+robots
+  robot robot1
+  variables  
+    escalones: numero
+  comenzar
+    escalones:=1
+    escalar(escalones)
+  fin
+
 variables
   R1: robot1
-  R2: robot2
-  R3: robot3
-  R4: robot4
+  R2: robot1
+  R3: robot1
 comenzar
-  AsignarArea(R1, areaR1)
-  AsignarArea(R2, areaR2)
-  AsignarArea(R3, areaR3)
-  AsignarArea(R4, areaR4)
-  Iniciar(R1, 10,10)
-  Iniciar(R2, 10,30)
-  Iniciar(R3, 30,30)
-  Iniciar(R4, 30,10)
+  AsignarArea(R1, ciudad)
+  AsignarArea(R2, ciudad)
+  AsignarArea(R3, ciudad)
+  Iniciar(R1, 3,4)  
+  Iniciar(R2, 8,6)
+  Iniciar(R3, 13,7)
 fin
