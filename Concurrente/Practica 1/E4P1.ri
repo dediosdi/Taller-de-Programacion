@@ -1,0 +1,104 @@
+programa ejemplo
+procesos
+  proceso limpiarPapeles
+  comenzar
+    repetir 99
+      mover
+      si (HayPapelEnLaEsquina)
+        tomarPapel 
+  fin
+
+  proceso limpiarFlores
+  comenzar
+    repetir 99
+      mover
+      si (HayFlorEnLaEsquina)
+        tomarFlor
+      
+     
+      
+  fin
+  
+  proceso limpiarArea1(E numAv: numero)
+  comenzar
+    
+    mientras (numAv < 26)
+      Pos(numAv, 1)
+      limpiarFlores
+      numAv:=numAv+1
+  fin
+  
+  proceso limpiarArea3(E numAv: numero)
+  comenzar
+
+    mientras (numAv <= 75)
+      Pos(numAv, 1)
+      limpiarFlores
+      numAv:=numAv+1
+  fin
+  
+  
+  proceso limpiarArea2(E numAv: numero)
+  comenzar
+   
+    mientras (numAv < 50)
+      limpiarPapeles
+      numAv:=numAv+1
+      Pos(numAv, 1)
+  fin
+  
+  proceso limpiarArea4(E numAv: numero)
+  comenzar
+    mientras (numAv <= 100)
+      Pos(numAv, 1)
+      limpiarPapeles
+      numAv:=numAv+1
+  fin
+  
+  proceso limpiarImpares
+  variables
+    av: numero
+  comenzar
+    av:=1
+    limpiarArea1(av)
+    av:=51
+    limpiarArea3(av)
+  fin
+  proceso limpiarPares
+  variables
+    av: numero
+  comenzar
+    av:=26
+    limpiarArea2(av)
+    av:=76
+    limpiarArea4(av)
+  fin
+   
+areas
+  area1: AreaP(1, 1, 25, 100)
+  area2: AreaP(26, 1, 50, 100)
+  area3: AreaP(51, 1, 75, 100)
+  area4: AreaP(76, 1, 100, 100)
+  
+robots
+  robot robotFlorero
+  comenzar
+    limpiarImpares
+  fin
+     
+  robot robotPapelero
+  comenzar
+    limpiarPares
+    
+  fin
+variables
+  R1: robotFlorero
+  R2: robotPapelero
+comenzar
+  AsignarArea(R1, area1)
+  AsignarArea(R1, area3)
+  AsignarArea(R2, area2) 
+  AsignarArea(R2, area4)
+  Iniciar (R1, 1,1)
+  Iniciar (R2, 26,1)
+fin
