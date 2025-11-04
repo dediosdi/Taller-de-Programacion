@@ -1,0 +1,94 @@
+programa ejemplo
+procesos
+  proceso actualizarMax(E flores: numero; ES floresMax: numero)
+  comenzar
+    si flores > floresMax
+      floresMax:= flores
+  fin
+
+  proceso juntarFlor (ES cantF: numero)
+  comenzar
+    si (HayFlorEnLaEsquina)
+      tomarFlor
+      cantF:=cantF+1  
+  fin
+       
+  proceso juntarFlores (ES totalF: numero)
+  comenzar
+    repetir 9
+      mover
+      juntarFlor (totalF)
+  fin
+  
+areas
+  areaR1: AreaP (1,1,1,10)
+  areaR2: AreaP (2,11,2,20)
+  areaR3: AreaP (3,21,3,30)
+  areaR4: AreaP (4,31,4,40)
+  areaR5: AreaP (5,41,5,50)
+  areaR6: AreaP (6,51,6,60)
+  areaRF: AreaPC (2,1,2,1)
+  
+robots
+  robot robotFlorero
+  variables
+    quienSoy: numero
+    totalF: numero
+  comenzar
+    RecibirMensaje(quienSoy, RF)
+    juntarFlores (totalF)
+    EnviarMensaje(quienSoy, RF)
+    EnviarMensaje(totalF, RF)
+  fin
+  
+  robot robotFiscalizador
+  variables
+    juntadas: numero
+    max: numero
+    id: numero
+    f: numero
+  comenzar
+
+    EnviarMensaje(1, R1)
+    EnviarMensaje(2, R2)
+    EnviarMensaje(3, R3)
+    EnviarMensaje(4, R4)
+    EnviarMensaje(5, R5)
+    EnviarMensaje(6, R6)
+    EnviarMensaje(2, R2)
+    
+    RecibirMensaje(id, *)
+    repetir 6
+      RecibirMensaje(juntadas, *) 
+      actualizarMax(juntadas, max)
+      Informar('Cantidad de flores que junto el ganador',max)
+
+       
+      
+  fin
+  
+variables
+  R1: robotFlorero
+  R2: robotFlorero
+  R3: robotFlorero
+  R4: robotFlorero
+  R5: robotFlorero
+  R6: robotFlorero
+  RF: robotFiscalizador
+comenzar
+  AsignarArea(R1, areaR1)
+  AsignarArea(R2, areaR2)
+  AsignarArea(R3, areaR3)
+  AsignarArea(R4, areaR4)
+  AsignarArea(R5, areaR5)
+  AsignarArea(R6, areaR6)
+  AsignarArea(RF, areaRF)
+  
+  Iniciar(R1, 1,1)
+  Iniciar(R2, 2,11)
+  Iniciar(R3, 3,21)
+  Iniciar(R4, 4,31)
+  Iniciar(R5, 5,41)
+  Iniciar(R6, 6,51)
+  Iniciar(RF, 2,1)
+fin
