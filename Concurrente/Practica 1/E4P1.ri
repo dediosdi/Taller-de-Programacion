@@ -1,8 +1,8 @@
-programa ejemplo
+programa E4P1
 procesos
   proceso limpiarPapeles
   comenzar
-    repetir 99
+    repetir 3
       mover
       si (HayPapelEnLaEsquina)
         tomarPapel 
@@ -10,68 +10,49 @@ procesos
 
   proceso limpiarFlores
   comenzar
-    repetir 99
+    repetir 3
       mover
       si (HayFlorEnLaEsquina)
         tomarFlor
-      
-     
-      
   fin
   
-  proceso limpiarArea1(E numAv: numero)
+  proceso limpiarAreaImpar(E numAv: numero)
   comenzar
-    
-    mientras (numAv < 26)
+    repetir 24
+      Pos(numAv, 1)
+      limpiarPapeles
+      numAv:=numAv+1
+    limpiarPapeles
+  fin
+  
+  
+  proceso LimpiarAreaPar (E numAv: numero)
+  comenzar
+    repetir 24
       Pos(numAv, 1)
       limpiarFlores
       numAv:=numAv+1
+    limpiarFlores
   fin
   
-  proceso limpiarArea3(E numAv: numero)
-  comenzar
 
-    mientras (numAv <= 75)
-      Pos(numAv, 1)
-      limpiarFlores
-      numAv:=numAv+1
-  fin
-  
-  
-  proceso limpiarArea2(E numAv: numero)
-  comenzar
-   
-    mientras (numAv < 50)
-      limpiarPapeles
-      numAv:=numAv+1
-      Pos(numAv, 1)
-  fin
-  
-  proceso limpiarArea4(E numAv: numero)
-  comenzar
-    mientras (numAv <= 100)
-      Pos(numAv, 1)
-      limpiarPapeles
-      numAv:=numAv+1
-  fin
-  
-  proceso limpiarImpares
+  proceso LimpiarImpares
   variables
     av: numero
   comenzar
     av:=1
-    limpiarArea1(av)
+    limpiarAreaImpar(av)
     av:=51
-    limpiarArea3(av)
+    limpiarAreaImpar(av)
   fin
   proceso limpiarPares
   variables
     av: numero
   comenzar
     av:=26
-    limpiarArea2(av)
+    LimpiarAreaPar(av)
     av:=76
-    limpiarArea4(av)
+    LimpiarAreaPar(av)
   fin
    
 areas
@@ -83,7 +64,7 @@ areas
 robots
   robot robotFlorero
   comenzar
-    limpiarImpares
+    LimpiarImpares
   fin
      
   robot robotPapelero
