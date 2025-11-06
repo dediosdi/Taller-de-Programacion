@@ -8,9 +8,9 @@ finalizar avisarán a los robots A2 y B2 respectivamente para que continúen con
 siguientes 10 esquinas. El segundo robot de cada equipo debe informar la cantidad
 de elementos recogidos en las 20 esquinas.
 Inicialice los 4 robots en las esquinas que considere más apropiadas según el
-trayecto que le corresponde realizar a cada uno.
-b. Modifique el programa anterior para que cada equipo repita el recorrido con las
-siguientes 20 esquinas de sus correspondientes calles.}
+trayecto que le corresponde realizar a cada uno.}
+
+
 programa E3P2
 procesos
   proceso juntarPapeles(ES totalP: numero)
@@ -43,69 +43,55 @@ procesos
   fin
   
 areas
-  areaA1a: AreaP(1,1,10,1)
-  areaA1b: AreaP(21,1,30,1)
-  areaA2a: AreaP(11,1,20,1)
-  areaA2b: AreaP(31,1,40,1)
-  areaB1a: AreaP(1,5,10,5)
-  areaB1b: AreaP(21,5,30,5)
-  areaB2a: AreaP(11,5,20,5)
-  areaB2b: AreaP(31,5,40,5)
+  RecorridoA1: AreaP(1,1,10,1)
+  RecorridoA2: AreaP(11,1,20,1)
+  RecorridoB1: AreaP(1,5,10,5)
+  RecorridoB2: AreaP(11,5,20,5)
 robots
 
   robot RA1
   variables
+    ok: boolean
     totalPapeles: numero
   comenzar
     derecha
     LimpiarPapeles(totalPapeles)
     EnviarMensaje (totalPapeles, RA2)
-    Pos(21,1)
-    RecibirMensaje(totalPapeles,RA2)
-    LimpiarPapeles(totalPapeles)
-    EnviarMensaje(totalPapeles,RA2)
   fin
   
   robot RA2
   variables
     totalPapeles: numero
+    ok: boolean
   comenzar  
     RecibirMensaje(totalPapeles, RA1)
     derecha
     LimpiarPapeles(totalPapeles)
-    EnviarMensaje(totalPapeles, RA1)
-    Pos(31,1)
-    RecibirMensaje(totalPapeles, RA1)
-    LimpiarPapeles(totalPapeles)
-    Informar('Total',totalPapeles)
+    Informar('El total de papeles es', totalPapeles)
   fin 
   
   
   robot RB1
   variables
+    ok: boolean
     totalFlores: numero
   comenzar
     derecha
+    ok:= F
     LimpiarFlores(totalFlores)
     EnviarMensaje(totalFlores, RB2)
-    Pos(21,5)
-    RecibirMensaje(totalFlores,RB2)
-    LimpiarFlores(totalFlores)
-    EnviarMensaje(totalFlores,RB2)
+    
   fin
   
   robot RB2
   variables
+    ok: boolean
     totalFlores: numero
   comenzar
     derecha
     RecibirMensaje(totalFlores, RB1)
     LimpiarFlores(totalFlores)
-    EnviarMensaje(totalFlores, RB1)
-    Pos(31,5)
-    RecibirMensaje(totalFlores, RB1)
-    LimpiarFlores(totalFlores)
-    Informar('Total',totalFlores)
+    Informar('El total de flores es', totalFlores)
   fin
   
 variables
@@ -115,16 +101,12 @@ variables
   RB2: RB2
 comenzar
 
-  AsignarArea(RA1, areaA1a)
-  AsignarArea(RA1, areaA1b)
-  AsignarArea(RA2, areaA2a)
-  AsignarArea(RA2, areaA2b)
-  AsignarArea(RB1, areaB1a)
-  AsignarArea(RB1, areaB1b)
-  AsignarArea(RB2, areaB2a)
-  AsignarArea(RB2, areaB2b)
-  Iniciar(RA1,1,1)
-  Iniciar(RA2,11,1)
-  Iniciar(RB1,1,5)
-  Iniciar(RB2,11,5)
+  AsignarArea(RA1, RecorridoA1)
+  AsignarArea(RA2, RecorridoA2)
+  AsignarArea(RB1, RecorridoB1)
+  AsignarArea(RB2, RecorridoB2)
+  Iniciar(RA1, 1,1)
+  Iniciar(RA2, 11,1)
+  Iniciar(RB1, 1,5)
+  Iniciar(RB2, 11,5)
 fin

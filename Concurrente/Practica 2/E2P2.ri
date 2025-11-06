@@ -1,0 +1,104 @@
+{2. Realice un programa en el que 3 robots realizan una escalera de 4 escalones cada uno.
+Todos los escalones tienen un ancho fijo de 1, y un alto aleatorio entre 1 y 5. Al finalizar
+el recorrido, cada robot deberá enviar al robot jefe la cantidad de escalones que tenían
+más flores que papeles. Una vez que los tres robots finalizaron, el robot jefe deberá
+informar la suma de las cantidades enviadas por los 3 robots.
+○ El robot jefe inicia en la esquina (1,1)
+○ El robot 1 inicia en la esquina (2,1)
+○ El robot 2 inicia en la esquina (7,1)
+○ El robot 3 inicia en la esquina (12,1)}
+
+programa E2P2
+procesos
+  proceso juntar (ES f: numero ; ES p: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      p:=p+1
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      f:=f+1
+  fin
+
+  proceso EnviarIds 
+  comenzar
+    EnviarMensaje(1, R1)
+    EnviarMensaje(2, R2)
+    EnviarMensaje(3, R3)
+  fin
+  
+  proceso izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+
+  proceso escalon(E ancho: numero ; E alto: numero ; ES f: numero ; ES p: numero)
+  comenzar
+    repetir alto
+      juntar(f, p)
+      mover
+    derecha
+    juntar(f, p)
+    mover
+    izquierda 
+  fin
+
+  proceso escalar (ES escmasflores: numero)
+  variables
+    alto, ancho: numero
+    f, p: numero
+    id: numero
+    escmasflores: numero
+  comenzar
+    ancho:=1
+    repetir 4
+      Random(alto,1,5)
+      escalon(ancho, alto, f, p)
+      si (f>p)
+        escmasflores:=escmasflores+1
+  fin
+ 
+areas
+  areaJefe: AreaP (1,1,1,1)
+  areaJuntadores: AreaP (2, 1, 21, 21)
+  
+robots
+  robot robotJuntador
+  variables
+    id: numero
+    escmasflores: numero
+  comenzar
+    RecibirMensaje(id, RJ)
+    escalar (escmasflores)
+    EnviarMensaje(escmasflores, RJ)
+  fin
+  
+  robot robotJefe
+  variables
+    id: numero
+    cantMayor, total: numero
+  comenzar
+    EnviarIds
+    repetir 3
+      RecibirMensaje (cantMayor, *)
+      total:=cantMayor+total
+    Informar(total)
+  fin
+variables
+  R1: robotJuntador
+  R2: robotJuntador
+  R3: robotJuntador
+  RJ: robotJefe
+comenzar
+  AsignarArea(RJ, areaJefe)
+  AsignarArea(R1, areaJuntadores)
+  AsignarArea(R2, areaJuntadores)
+  AsignarArea(R3, areaJuntadores)
+  
+  Iniciar(RJ, 1,1)
+  Iniciar (R1, 2,1)
+  Iniciar (R2, 7,1)
+  Iniciar (R3, 12,1)
+  
+fin
