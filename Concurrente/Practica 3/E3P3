@@ -6,9 +6,6 @@ el jefe deberá informar cuál de ellos logró recoger más flores.
 Las esquinas de inicio de los robots deberán ser jefe (1,1) y robots (2,1), (3, 1), (4,1) y (5,1)}
 
 programa ejemplo
-
-
-  
 areas
   cuadrante: AreaC (1,1,100,100)
 robots
@@ -42,10 +39,6 @@ robots
       
     EnviarMensaje(quienSoy,RJ)
     EnviarMensaje(cantF, RJ)
-
-   
-      
-    
   fin
   
   robot robotJefe
@@ -94,10 +87,7 @@ robots
     si (cant>max) 
       max:=cant
       ganador:=id
-    Informar ('El ganador es R', ganador)
-             
-        
-        
+    Informar ('El ganador es R', ganador)   
   fin
   
 variables
