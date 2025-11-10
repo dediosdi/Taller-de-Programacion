@@ -1,3 +1,16 @@
+{1- Realice un programa con 2 robots recolectores de flores (floreros) y 2 robots recolectores
+de papeles (papeleros).
+Los floreros comparten área y tienen 5 intentos cada uno para juntar las flores de una esquina,
+dentro de dicha área, elegida al azar en cada intento. Del mismo modo, los papeleros
+comparten área y tienen 3 intentos cada uno para juntar los papeles. En cada intento cada
+robot va a la esquina al azar, junta todos los elementos (flores o papeles según le
+corresponda) y vuelve a su esquina original. Al finalizar sus intentos cada robot debe acceder
+a la esquina (10, 10) y depositar los elementos recogidos de a uno.
+- Área de floreros: (1,1) a (5, 10)
+- Área de papeleros: (6, 1) a (10, 9)
+- Esquinas de inicio de floreros: (6,10) y (7,10)
+- Esquinas de inicio de papeleros: (8,10) y (9,10)}
+
 programa E1P3
 procesos
   proceso depositarPapeles(E numAv: numero ; E numCa: numero)
@@ -44,7 +57,6 @@ procesos
     LiberarEsquina(numAv, numCa)
   fin
   
-  
 areas
   areaFloreros: AreaPC (1,1,5,10)
   areaPapeleros: AreaPC (6,1,10,9)
@@ -52,7 +64,6 @@ areas
   areaInicioF2: AreaP (7,10,7,10)
   areaInicioP1: AreaP (8,10,8,10)
   areaInicioP2: AreaP (9,10,9,10)
-  
   areaDeposito: AreaC (10,10,10,10)
   
 robots
@@ -65,7 +76,6 @@ robots
   comenzar
     origenAv:=PosAv
     origenCa:=PosCa
-
     
     repetir 5
       Random(avRandom,1,5)
@@ -95,7 +105,6 @@ robots
       Random(caRandom,1,9)
       ProbarSuertePapeles(avRandom, caRandom, cantP, origenAv, origenCa)
  
-      
     {Depositar elementos:}
     repetir cantP
       BloquearEsquina(10,10)
