@@ -1,3 +1,12 @@
+4) Realice un programa en el que dos robots se encargan de limpiar las ciudad. La ciudad se dividió
+en 4 áreas: las impares (1 y 3) deben limpiarse de flores; y las pares (2 y 4) deben limpiarse de
+papeles. Un robot debe encargarse de las áreas impares y otro robot de las pares. Modularice el
+recorrido de cada área
+- Área 1: desde la avenida 1 hasta la avenida 25
+- Área 2: desde la avenida 26 hasta la avenida 50
+- Área 3: desde la avenida 51 hasta la avenida 75
+- Área 4: desde la avenida 76 hasta la avenida 100
+
 programa E4P1
 procesos
   proceso limpiarPapeles
@@ -70,8 +79,8 @@ robots
   robot robotPapelero
   comenzar
     limpiarPares
-    
   fin
+
 variables
   R1: robotFlorero
   R2: robotPapelero
