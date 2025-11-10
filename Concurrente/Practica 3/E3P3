@@ -1,0 +1,121 @@
+{3- Realice un programa donde 4 robots colaboren para recoger todas las flores de una
+esquina indicada por un robot jefe, seleccionada de manera aleatoria dentro del cuadrante
+(2,2) y (10,10). Para ello el jefe determina inicialmente una esquina y los robots deben
+accederla, tomar de a una las flores y volver a su posición inicial. Cuando los robots terminan
+el jefe deberá informar cuál de ellos logró recoger más flores.
+Las esquinas de inicio de los robots deberán ser jefe (1,1) y robots (2,1), (3, 1), (4,1) y (5,1)}
+
+programa ejemplo
+
+
+  
+areas
+  cuadrante: AreaC (1,1,100,100)
+robots
+  robot robotJuntador
+  variables
+    
+    calleOrigen, avOrigen: numero
+    calle, avenida: numero
+    quienSoy: numero
+    cantF: numero
+    hay: boolean
+  comenzar
+    hay:=V
+    avOrigen:=PosAv
+    calleOrigen:=PosCa
+    RecibirMensaje(quienSoy, RJ)
+    RecibirMensaje(calle, RJ)
+    RecibirMensaje(avenida, RJ)
+   
+    mientras (hay = V)
+      BloquearEsquina(avenida,calle)
+      Pos(avenida,calle)
+      si (HayFlorEnLaEsquina)
+        tomarFlor
+        cantF:=cantF+1
+        hay:=V
+      sino
+        hay:=F
+      Pos(avOrigen, calleOrigen) 
+      LiberarEsquina(avenida,calle)
+      
+    EnviarMensaje(quienSoy,RJ)
+    EnviarMensaje(cantF, RJ)
+
+   
+      
+    
+  fin
+  
+  robot robotJefe
+  variables
+    cant: numero
+    calle, avenida: numero
+    id: numero
+    max: numero
+    ganador: numero
+  comenzar
+    max:=-1
+    EnviarMensaje(1, R1)
+    EnviarMensaje(2, R2)
+    EnviarMensaje(3, R3)
+    EnviarMensaje(4, R4)
+    
+    Random(calle, 2,9)
+    Random(avenida, 2,9)
+    EnviarMensaje(calle, R1)
+    EnviarMensaje(avenida, R1)
+    Random(calle, 2,9)
+    Random(avenida, 2,9)
+    EnviarMensaje(calle, R2)
+    EnviarMensaje(avenida, R2)
+    Random(calle, 2,9)
+    Random(avenida, 2,9)
+    EnviarMensaje(calle, R3)
+    EnviarMensaje(avenida, R3)
+    Random(calle, 2,9)
+    Random(avenida, 2,9)
+    EnviarMensaje(calle, R4)
+    EnviarMensaje(avenida, R4)
+    
+    repetir 4
+      RecibirMensaje (id, *)
+      si (id = 1) 
+        RecibirMensaje (cant, R1)
+      sino
+        si (id = 2)
+          RecibirMensaje (cant, R2)
+        sino
+          si (id = 3)
+            RecibirMensaje (cant, R3)
+          sino 
+            RecibirMensaje (cant, R4)
+    si (cant>max) 
+      max:=cant
+      ganador:=id
+    Informar ('El ganador es R', ganador)
+             
+        
+        
+  fin
+  
+variables
+  R1: robotJuntador
+  R2: robotJuntador
+  R3: robotJuntador
+  R4: robotJuntador
+  RJ: robotJefe
+comenzar
+  AsignarArea(R1, cuadrante)
+  AsignarArea(R2, cuadrante)
+  AsignarArea(R3, cuadrante)
+  AsignarArea(R4, cuadrante)  
+  AsignarArea(RJ, cuadrante)
+
+  Iniciar (R1, 2,1)
+  Iniciar (R2, 3,1)
+  Iniciar (R3, 4,1)
+  Iniciar (R4, 5,1)
+  Iniciar (RJ, 1,1)
+fin

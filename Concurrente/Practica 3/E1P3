@@ -1,0 +1,134 @@
+programa E1P3
+procesos
+  proceso depositarPapeles(E numAv: numero ; E numCa: numero)
+  comenzar
+    si (HayPapelEnLaBolsa)
+      depositarPapel
+  fin
+  
+  proceso depositarFlores(E numAv: numero ; E numCa: numero)
+  comenzar
+    si (HayFlorEnLaBolsa)
+      depositarFlor
+  fin
+  
+  proceso juntarFlor(ES cantF: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantF:=cantF+1
+  fin
+  
+  proceso juntarPapel(ES cantP: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      cantP:=cantP+1
+  fin
+
+  proceso ProbarSuerteFlores(E numAv: numero ; E numCa: numero ; ES cantF: numero ; E origenAv: numero ;  E origenCa: numero)    
+  comenzar
+    BloquearEsquina(numAv, numCa)
+    Pos(numAv, numCa)
+    juntarFlor(cantF)
+    Pos(origenAv, origenCa)
+    LiberarEsquina(numAv, numCa)
+  fin
+  
+  proceso ProbarSuertePapeles(E numAv: numero ; E numCa: numero ; ES cantP: numero ; E origenAv: numero ;  E origenCa: numero)
+  comenzar
+    BloquearEsquina(numAv, numCa)
+    Pos(numAv, numCa)
+    juntarPapel(cantP)
+    Pos(origenAv, origenCa)
+    LiberarEsquina(numAv, numCa)
+  fin
+  
+  
+areas
+  areaFloreros: AreaPC (1,1,5,10)
+  areaPapeleros: AreaPC (6,1,10,9)
+  areaInicioF1: AreaP (6,10,6,10)
+  areaInicioF2: AreaP (7,10,7,10)
+  areaInicioP1: AreaP (8,10,8,10)
+  areaInicioP2: AreaP (9,10,9,10)
+  
+  areaDeposito: AreaC (10,10,10,10)
+  
+robots
+  robot robotFlorero
+  variables
+    cantF: numero
+    caRandom, avRandom : numero
+    origenCa, origenAv: numero
+    
+  comenzar
+    origenAv:=PosAv
+    origenCa:=PosCa
+
+    
+    repetir 5
+      Random(avRandom,1,5)
+      Random(caRandom,1,10)
+      ProbarSuerteFlores(avRandom, caRandom, cantF, origenAv, origenCa)
+     
+    {Depositar elementos:}
+    repetir cantF
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      depositarFlores(10,10)
+      Pos(origenAv, origenCa)
+      LiberarEsquina(10,10)
+  fin
+  
+  robot robotPapelero
+  variables
+    cantP: numero
+    caRandom, avRandom : numero
+    origenCa, origenAv: numero
+  comenzar
+    origenAv:=PosAv
+    origenCa:=PosCa
+
+    repetir 3
+      Random(avRandom,6,10)
+      Random(caRandom,1,9)
+      ProbarSuertePapeles(avRandom, caRandom, cantP, origenAv, origenCa)
+ 
+      
+    {Depositar elementos:}
+    repetir cantP
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      depositarPapeles(10,10)
+      Pos(origenAv, origenCa)
+      LiberarEsquina(10,10)
+  fin
+  
+  
+variables
+  RF1: robotFlorero
+  RF2: robotFlorero
+  RP1: robotPapelero
+  RP2: robotPapelero
+comenzar
+  AsignarArea(RF1, areaFloreros)
+  AsignarArea(RF1, areaInicioF1)
+  AsignarArea(RF2, areaFloreros)
+  AsignarArea(RF2, areaInicioF2)
+  
+  AsignarArea(RP1, areaPapeleros)
+  AsignarArea(RP1, areaInicioP1)
+  AsignarArea(RP2, areaPapeleros)
+  AsignarArea(RP2, areaInicioP2)
+  
+  AsignarArea(RF1, areaDeposito)
+  AsignarArea(RF2, areaDeposito)
+  AsignarArea(RP1, areaDeposito)
+  AsignarArea(RP2, areaDeposito)
+  
+  Iniciar(RF1, 6,10)
+  Iniciar(RF2, 7,10)
+  Iniciar(RP1, 8,10)
+  Iniciar(RP2, 9,10)
+fin

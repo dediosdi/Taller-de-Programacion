@@ -1,0 +1,211 @@
+programa ejemplo
+procesos
+  proceso juntarPapeles (ES cantP: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      cantP:=cantP+1
+  fin
+  proceso juntarFlores (ES cantF: numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantF:=cantF+1
+  fin
+  proceso izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+  proceso escalonDecrecienteR2(ES tamanio: numero ; ES cantP: numero)
+  comenzar
+    repetir tamanio
+      mover
+    izquierda
+    repetir tamanio
+      juntarPapeles(cantP)
+      mover
+
+  fin 
+  
+  proceso escalonCrecienteR2(ES tamanio: numero ; ES cantP: numero)
+  comenzar
+    repetir tamanio
+      juntarPapeles(cantP)
+      mover
+    izquierda
+    repetir tamanio
+      mover
+  fin    
+  
+      
+  proceso escalonDecrecienteR1(ES tamanio: numero ; ES cantF: numero)
+  comenzar
+    repetir tamanio 
+      mover
+    derecha    
+    repetir tamanio
+      juntarFlores(cantF)
+      mover
+  fin
+      
+  proceso escalonCrecienteR1(ES tamanio: numero ; ES cantF: numero)
+  comenzar
+    
+    repetir tamanio
+      juntarFlores(cantF)
+      mover
+    derecha
+    repetir tamanio
+      mover
+  fin     
+  
+  proceso trayecto1R1 (ES flores: numero)
+  variables
+    tamanioescalon: numero
+  comenzar
+    tamanioescalon:=5 {diametro del primer escalon}
+    repetir 4 {son 5 escalones}
+      escalonDecrecienteR1(tamanioescalon, flores)
+      izquierda
+      tamanioescalon:=tamanioescalon-1
+    BloquearEsquina(16,16)
+    escalonDecrecienteR1(tamanioescalon,flores)
+    izquierda
+    LiberarEsquina(16,16)
+    
+ 
+  fin
+   
+  proceso trayecto2R1 (ES flores: numero)
+  variables
+    tamanioescalon: numero
+  comenzar
+    tamanioescalon:=2
+    izquierda
+    mover
+    repetir 4
+      escalonCrecienteR1(tamanioescalon, flores)
+      izquierda
+      tamanioescalon:=tamanioescalon+1
+
+  fin
+  
+  proceso trayecto1R2 (ES papeles: numero)
+  variables
+    tamanioescalon: numero
+  comenzar
+    tamanioescalon:=5 {diametro del primer escalon}
+    repetir 4 {son 5 escalones}
+      escalonDecrecienteR2(tamanioescalon, papeles)
+      derecha
+      tamanioescalon:=tamanioescalon-1
+    BloquearEsquina(16,16)
+    escalonDecrecienteR2(tamanioescalon,papeles)
+
+    derecha
+    LiberarEsquina(16,16)
+    
+  
+
+ 
+  fin
+    
+  proceso trayecto2R2 (ES papeles: numero)
+  variables
+    tamanioescalon: numero
+  comenzar
+    tamanioescalon:=2
+    derecha
+    mover
+    repetir 4
+      escalonCrecienteR2(tamanioescalon, papeles)
+      derecha
+      tamanioescalon:=tamanioescalon+1
+  fin
+  
+areas
+  ciudad: AreaC (1,1,100,100)
+
+robots
+
+  robot robot1
+  variables
+    quienSoy: numero
+    llegue: boolean
+    cantF: numero
+  comenzar
+    RecibirMensaje(quienSoy, RJ)
+    trayecto1R1 (cantF)
+    EnviarMensaje(quienSoy, RJ)
+    trayecto2R1 (cantF)
+    EnviarMensaje(quienSoy, RJ)
+    EnviarMensaje(cantF, RJ)
+    Informar('La cantidad de elementos que junte fueron', cantF)
+  fin
+  
+  robot robot2
+  variables
+    quienSoy: numero
+    cantP: numero
+    llegue: boolean
+  comenzar
+    RecibirMensaje(quienSoy, RJ)
+    trayecto1R2(cantP)
+    EnviarMensaje(quienSoy, RJ)
+    trayecto2R2(cantP)
+    EnviarMensaje(quienSoy, RJ)
+    EnviarMensaje(cantP, RJ)
+    Informar('La cantidad de elementos que junte fueron', cantP)
+  fin 
+  
+  
+  robot robotJefe
+  variables
+    id: numero
+    cant: numero
+    llego: boolean
+    ganador: numero
+  comenzar
+    EnviarMensaje(1, R1)
+    EnviarMensaje(2, R2)
+    
+    RecibirMensaje(id, *)
+    si (id = 1)
+      ganador:=1
+    sino
+      ganador:=2
+       
+        
+    repetir 2
+      RecibirMensaje(id, *)
+      si (id = 1) 
+        RecibirMensaje(cant, R1)
+      sino
+        si (id = 2) 
+          RecibirMensaje(cant, R2)
+        
+    Informar('El ganador en la mitad es R', ganador)
+        
+        
+     
+   
+    
+  
+        
+     
+        
+   
+  fin
+variables
+  R1: robot1
+  R2: robot2
+  RJ: robotJefe
+comenzar
+  AsignarArea(R1, ciudad)
+  AsignarArea(R2, ciudad)
+  AsignarArea(RJ, ciudad)
+  Iniciar(R1, 1,1)
+  Iniciar(R2, 31,1)
+  Iniciar(RJ, 15,1)
+fin
