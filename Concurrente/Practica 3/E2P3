@@ -1,4 +1,13 @@
-programa ejemplo
+{2- Realice un programa en el cual 2 robots corren una carrera. El recorrido realizado por cada
+uno es el que se muestra en la siguiente figura. Durante el recorrido el robot 1 debe juntar
+todas las flores que encuentre en los vértices de cada escalón, y el robot 2 debe juntar todos
+los papeles que encuentre en los vértices de cada escalón. Al finalizar deben informar la
+cantidad de elementos recogidos.
+El robot 1 debe iniciar su recorrido en la esquina (1,1) y el robot 2 en la esquina (31,1).
+Al finalizar la carrera, un robot jefe (inicializado en la esquina (15,1) ) debe informar qué robot
+llegó primero a la esquina central de su recorrido. }
+
+programa E2P3
 procesos
   proceso juntarPapeles (ES cantP: numero)
   comenzar
@@ -25,7 +34,6 @@ procesos
     repetir tamanio
       juntarPapeles(cantP)
       mover
-
   fin 
   
   proceso escalonCrecienteR2(ES tamanio: numero ; ES cantP: numero)
@@ -38,7 +46,6 @@ procesos
       mover
   fin    
   
-      
   proceso escalonDecrecienteR1(ES tamanio: numero ; ES cantF: numero)
   comenzar
     repetir tamanio 
@@ -73,8 +80,6 @@ procesos
     escalonDecrecienteR1(tamanioescalon,flores)
     izquierda
     LiberarEsquina(16,16)
-    
- 
   fin
    
   proceso trayecto2R1 (ES flores: numero)
@@ -88,7 +93,6 @@ procesos
       escalonCrecienteR1(tamanioescalon, flores)
       izquierda
       tamanioescalon:=tamanioescalon+1
-
   fin
   
   proceso trayecto1R2 (ES papeles: numero)
@@ -102,13 +106,8 @@ procesos
       tamanioescalon:=tamanioescalon-1
     BloquearEsquina(16,16)
     escalonDecrecienteR2(tamanioescalon,papeles)
-
     derecha
     LiberarEsquina(16,16)
-    
-  
-
- 
   fin
     
   proceso trayecto2R2 (ES papeles: numero)
@@ -128,7 +127,6 @@ areas
   ciudad: AreaC (1,1,100,100)
 
 robots
-
   robot robot1
   variables
     quienSoy: numero
@@ -159,7 +157,6 @@ robots
     Informar('La cantidad de elementos que junte fueron', cantP)
   fin 
   
-  
   robot robotJefe
   variables
     id: numero
@@ -175,8 +172,7 @@ robots
       ganador:=1
     sino
       ganador:=2
-       
-        
+
     repetir 2
       RecibirMensaje(id, *)
       si (id = 1) 
@@ -186,16 +182,6 @@ robots
           RecibirMensaje(cant, R2)
         
     Informar('El ganador en la mitad es R', ganador)
-        
-        
-     
-   
-    
-  
-        
-     
-        
-   
   fin
 variables
   R1: robot1
