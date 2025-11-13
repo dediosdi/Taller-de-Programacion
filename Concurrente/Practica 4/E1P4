@@ -1,0 +1,143 @@
+
+programa ejemplo
+procesos
+
+  proceso AvanzarSoltando
+  comenzar
+    mientras (HayFlorEnLaBolsa) & (PosCa<100)
+      depositarFlor
+      mover
+    si(HayFlorEnLaBolsa) & (PosCa = 100)
+      depositarFlor
+  fin
+
+  proceso JuntarFlores
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+
+  fin
+
+  proceso depositar(ES cant: numero)
+  comenzar
+    repetir (cant)
+      depositarFlor
+  fin
+ 
+
+
+  proceso enviarIDs
+  comenzar
+    EnviarMensaje(1, R1)
+    EnviarMensaje(2, R2)
+    EnviarMensaje(3, R3)
+  fin
+  
+
+  
+areas
+  areaServidor: AreaP (100,100,100,100)
+  areaClientes: AreaPC (1,1,3,100)
+  
+robots
+  robot robotServidor
+  variables 
+    id: numero
+    av, ca: numero
+    cant: numero
+
+    RT: numero
+    
+  comenzar
+    RT:=0
+
+    
+    enviarIDs
+
+    mientras (RT < 3)
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(cant, R1)
+        si (cant <> 0) 
+          RecibirMensaje(av, R1)
+          RecibirMensaje(ca, R1)
+          Pos(av,ca)
+          repetir cant
+            depositarFlor
+          Pos(100,100)
+          EnviarMensaje(V, R1)
+        sino
+          RT:=RT+1
+      sino
+        si (id = 2)
+          RecibirMensaje(cant, R2)
+          si (cant <> 0) 
+            RecibirMensaje(av, R2)
+            RecibirMensaje(ca, R2)
+            Pos(av,ca)
+            repetir cant
+              depositarFlor
+            Pos(100,100)
+            EnviarMensaje(V, R2)
+          sino 
+            RT:=RT+1
+        sino
+          si (id = 3)
+            RecibirMensaje(cant, R3)
+            si (cant <> 0) 
+              RecibirMensaje(av, R3)
+              RecibirMensaje(ca, R3)
+              Pos(av,ca)
+              repetir cant
+                depositarFlor
+              Pos(100,100)
+              EnviarMensaje(V, R3)
+            sino
+              RT:=RT+1
+  fin
+  
+  robot robotCliente
+  variables
+    id: numero
+    cant: numero
+    miAv, miCa: numero
+    ack:boolean
+    cantF: numero
+  comenzar
+    RecibirMensaje(id, RS)
+ 
+    mientras(PosCa<100)
+      Random(cant, 1,4)
+      EnviarMensaje(id, RS)
+      EnviarMensaje(cant, RS)
+      miAv:=PosAv
+      miCa:=PosCa
+      EnviarMensaje(miAv, RS)
+      EnviarMensaje(miCa+1, RS)
+      
+      RecibirMensaje(ack, RS)
+      Pos(miAv,miCa+1)
+      JuntarFlores
+      Pos(miAv,miCa)
+      AvanzarSoltando
+ 
+    EnviarMensaje(id, RS)
+    EnviarMensaje(0, RS)
+  fin
+
+variables
+  RS: robotServidor
+  R1: robotCliente
+  R2: robotCliente
+  R3: robotCliente
+comenzar
+  AsignarArea(RS, areaServidor)
+  AsignarArea(RS, areaClientes)
+  AsignarArea(R1, areaClientes)
+  AsignarArea(R2, areaClientes)
+  AsignarArea(R3, areaClientes)
+  Iniciar(RS, 100, 100)
+  Iniciar(R1, 1, 1)
+  Iniciar(R2, 2, 1)
+  Iniciar(R3, 3, 1) 
+fin
