@@ -1,0 +1,126 @@
+{Bienvenidos al entorno CMRE.
+Lo siguiente es un código de ejemplo que implementa un
+proceso que recibe un número de avenida como parámetro,
+se posiciona en esa avenida y la recorre.}
+
+programa ejemplo
+procesos
+  proceso Depositar(ES cantP: numero ; E miAv: numero ; E miCa: numero)
+  comenzar
+    repetir cantP
+      BloquearEsquina(3,20)
+      Pos(3,20)
+      si (HayPapelEnLaBolsa)
+        depositarPapel
+      Pos(miAv,miCa)
+      LiberarEsquina(3,20)
+  fin
+
+  proceso EnviarIDs
+  comenzar
+    EnviarMensaje(1,R1)
+    EnviarMensaje(2,R2)
+    EnviarMensaje(3,R3)
+  fin
+ 
+  proceso juntarPapeles(ES cantP: numero)
+  comenzar
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      cantP:=cantP+1
+  fin
+  
+  proceso limpiarCalle(ES cantP: numero ; E esquinas: numero)
+  comenzar
+    derecha
+    repetir esquinas
+      juntarPapeles(cantP)
+      mover
+
+  fin
+  
+areas
+  areaJ: AreaP (2,1,2,1)
+  areaDeposito: AreaPC(3,20,3,20)
+  areaRecolectores: AreaPC(1,2,63,2)
+robots
+
+  
+  robot robotRecolector1
+  variables
+    id: numero
+    cantP: numero
+    esquinas: numero
+    miAv,miCa: numero
+  comenzar
+
+    esquinas:=20-1
+    cantP:=0
+    RecibirMensaje(id, RJ)
+    limpiarCalle(cantP, esquinas)
+    EnviarMensaje(V, R2)
+    miAv:=PosAv
+    miCa:=PosCa
+    Depositar(cantP, miAv, miCa)
+  fin
+  
+  robot robotRecolector2
+  variables
+    id: numero
+    cantP: numero
+    esquinas: numero
+    empezar: boolean
+    miAv,miCa: numero
+  comenzar
+    miAv:=PosAv
+    miCa:=PosCa
+    esquinas:=20
+    cantP:=0
+    RecibirMensaje(id, RJ)
+    RecibirMensaje(empezar, R1)
+    limpiarCalle(cantP, esquinas)
+    EnviarMensaje(V, R3)
+    Depositar(cantP, miAv, miCa)
+  fin
+  
+  robot robotRecolector3
+  variables
+    id: numero
+    cantP: numero
+    esquinas: numero
+    empezar: boolean
+    miAv,miCa: numero
+  comenzar
+    miAv:=PosAv
+    miCa:=PosCa
+    esquinas:=21
+    cantP:=0
+    RecibirMensaje(id, RJ)
+    RecibirMensaje(empezar, R2)
+    limpiarCalle(cantP, esquinas)
+    Depositar(cantP, miAv, miCa)
+  fin
+  
+  robot robotJefe
+  comenzar
+    EnviarIDs
+  fin
+
+variables
+  R1: robotRecolector1
+  R2: robotRecolector2
+  R3: robotRecolector3
+  RJ: robotJefe
+comenzar
+  AsignarArea(RJ, areaJ)
+  AsignarArea(R1, areaRecolectores)
+  AsignarArea(R2, areaRecolectores)
+  AsignarArea(R3, areaRecolectores)
+  AsignarArea(R1, areaDeposito)
+  AsignarArea(R2, areaDeposito)
+  AsignarArea(R3, areaDeposito)
+  Iniciar(RJ, 2,1)
+  Iniciar(R1, 1,2)
+  Iniciar(R2, 21,2)  
+  Iniciar(R3, 42,2)
+fin
