@@ -39,11 +39,55 @@ public class Investigador {
     private String nombre;
     private int cat;
     private String especialidad;
+    private Subsidio subsidios [] = new Subsidio [5];
+    private int cantSubsidios = 0;
 
     public Investigador(String nombre, int cat, String especialidad) {
         this.nombre = nombre;
         this.cat = cat;
         this.especialidad = especialidad;
+        this.subsidios =  new Subsidio [5];
     }
+    
+    public void agregarSubsidio(Subsidio unSubsidio){
+        while (cantSubsidios < 5)
+            subsidios[cantSubsidios]=unSubsidio;
+            cantSubsidios++;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getCat() {
+        return cat;
+    }
+
+    public void setCat(int cat) {
+        this.cat = cat;
+    }
+
+    public String getEspecialidad() {
+        return especialidad;
+    }
+
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
+    }
+
+    public int getCantSubsidios() {
+        return cantSubsidios;
+    }
+
+    public void setCantSubsidios(int cantSubsidios) {
+        this.cantSubsidios = cantSubsidios;
+    }
+
+    
+    
     
 }

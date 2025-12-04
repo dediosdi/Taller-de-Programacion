@@ -36,56 +36,37 @@ package tema5.E1P5;
  * @author juan
  */
 public class Proyecto {
+
     private String nombre;
     private int codigo;
     private String nomDirector;
-    private Investigador investigadores  [];
     private int totalInvestigadores = 50;
+    private Investigador investigadores[];
 
     public Proyecto(String nombre, int codigo, String nomDirector) {
         this.nombre = nombre;
         this.codigo = codigo;
         this.nomDirector = nomDirector;
+        this.investigadores = new Investigador[totalInvestigadores];
     }
 
-    public String getNombre() {
-        return nombre;
+    public void agregarInvestigador(Investigador unInvestigador) {
+        for (int i = 0; i < totalInvestigadores; i++) {
+            investigadores[i] = unInvestigador;
+        }
+        
+    public double dineroTotalOtorgado() {
+        for (int i=0; i<totalInvestigadores; i++)
+            Investigador,
+        return total;
+
+  
+        
+        
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public int getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
-    }
-
-    public String getNomDirector() {
-        return nomDirector;
-    }
-
-    public void setNomDirector(String nomDirector) {
-        this.nomDirector = nomDirector;
-    }
-
-    public Investigador[] getInvestigadores() {
-        return investigadores;
-    }
-
-    public void setInvestigadores(Investigador[] investigadores) {
-        this.investigadores = investigadores;
-    }
-
-    public int getTotalInvestigadores() {
-        return totalInvestigadores;
-    }
-
-    public void setTotalInvestigadores(int totalInvestigadores) {
-        this.totalInvestigadores = totalInvestigadores;
-    }
 
 }
+    
+
+
