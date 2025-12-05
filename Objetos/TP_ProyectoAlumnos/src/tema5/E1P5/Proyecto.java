@@ -40,6 +40,7 @@ public class Proyecto {
     private String nombre;
     private int codigo;
     private String nomDirector;
+    private int cantInvestigadores;
     private int totalInvestigadores = 50;
     private Investigador investigadores[];
 
@@ -48,23 +49,67 @@ public class Proyecto {
         this.codigo = codigo;
         this.nomDirector = nomDirector;
         this.investigadores = new Investigador[totalInvestigadores];
+        this.cantInvestigadores = 0;
     }
 
     public void agregarInvestigador(Investigador unInvestigador) {
-        for (int i = 0; i < totalInvestigadores; i++) {
-            investigadores[i] = unInvestigador;
+        if (cantInvestigadores<totalInvestigadores) {
+            investigadores[totalInvestigadores] = unInvestigador;
+            cantInvestigadores++;
         }
+    }
         
     public double dineroTotalOtorgado() {
-        for (int i=0; i<totalInvestigadores; i++)
-            Investigador,
-        return total;
+        double aux=0;
+        for (int i=0 ; i<totalInvestigadores ; i++){
+            aux=this.investigadores[i].totalSubsidiado()+aux;
+        }
+        return aux;
+        }
 
-  
-        
-        
+    public String getNombre() {
+        return nombre;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getNomDirector() {
+        return nomDirector;
+    }
+
+    public void setNomDirector(String nomDirector) {
+        this.nomDirector = nomDirector;
+    }
+
+    public int getCantInvestigadores() {
+        return cantInvestigadores;
+    }
+
+    public void setCantInvestigadores(int cantInvestigadores) {
+        this.cantInvestigadores = cantInvestigadores;
+    }
+
+    public int getTotalInvestigadores() {
+        return totalInvestigadores;
+    }
+
+    public void setTotalInvestigadores(int totalInvestigadores) {
+        this.totalInvestigadores = totalInvestigadores;
+    }
+  
+        
+     
+    
 
 }
     

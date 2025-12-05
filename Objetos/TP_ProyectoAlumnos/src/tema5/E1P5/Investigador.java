@@ -39,7 +39,7 @@ public class Investigador {
     private String nombre;
     private int cat;
     private String especialidad;
-    private Subsidio subsidios [] = new Subsidio [5];
+    private Subsidio subsidios [];
     private int cantSubsidios = 0;
 
     public Investigador(String nombre, int cat, String especialidad) {
@@ -54,7 +54,6 @@ public class Investigador {
             subsidios[cantSubsidios]=unSubsidio;
             cantSubsidios++;
     }
-
     public String getNombre() {
         return nombre;
     }
@@ -88,6 +87,12 @@ public class Investigador {
     }
 
     
-    
+    public double totalSubsidiado(){
+        double aux=0;
+        for (int i=0; i<5; i++){
+            aux=this.subsidios[i].getMonto()+aux;
+        }
+        return aux;
+    }
     
 }
